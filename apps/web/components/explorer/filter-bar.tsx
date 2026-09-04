@@ -26,7 +26,7 @@ export function FilterBar({ catalog, filters }: { catalog: CatalogOptions; filte
     }
     next.delete("page")
     paramsRef.current = next.toString()
-    startTransition(() => router.push(next.toString() ? `/?${next}` : "/"))
+    startTransition(() => router.push(next.toString() ? `/explore?${next}` : "/explore"))
   }
 
   function submitRanges(event: React.FormEvent<HTMLFormElement>) {

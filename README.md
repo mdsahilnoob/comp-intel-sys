@@ -2,7 +2,7 @@
 
 CompGrid is a compensation-intelligence MVP for the Indian technology market. It helps people compare annual INR packages across companies, company-specific levels, canonical career levels, roles, and cities—while keeping assumptions and uncertainty visible.
 
-The main experience is at `/`: filter the market, inspect percentile metrics, sort individual records, open a company profile, compare levels, or anonymously submit a normalized package.
+The main experience is at `/explore`: filter the market, inspect percentile metrics, sort individual records, open a company profile, compare levels, or anonymously submit a normalized package.
 
 ## Product thesis
 
@@ -18,7 +18,7 @@ Compensation data is difficult to compare because the same title means different
 
 | Route | Purpose |
 | --- | --- |
-| `/` | URL-backed compensation explorer with filters, metrics, sorting, pagination, and responsive cards |
+| `/explore` | URL-backed compensation explorer with filters, metrics, sorting, pagination, and responsive cards |
 | `/companies` | Searchable company directory |
 | `/companies/[slug]` | Company profile, role/location slice, level mapping, and median chart |
 | `/compare` | Compare up to three company levels on the same role and city |

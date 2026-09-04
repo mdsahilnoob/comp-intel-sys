@@ -36,7 +36,7 @@ export function createExplorerHref(
   }
 
   const query = params.toString()
-  return query ? `/?${query}` : "/"
+  return query ? `/explore?${query}` : "/explore"
 }
 
 export function toSingleValueRecord(

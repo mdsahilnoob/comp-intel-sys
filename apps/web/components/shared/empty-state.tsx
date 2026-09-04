@@ -5,7 +5,7 @@ import Link from "next/link"
 export function EmptyState({
   title,
   description,
-  clearHref = "/",
+  clearHref = "/explore",
 }: {
   title: string
   description: string

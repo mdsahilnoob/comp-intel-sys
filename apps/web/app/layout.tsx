@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
+import "./landing.css"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -19,11 +20,17 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ),
   title: {
-    default: "CompGrid | Compensation intelligence",
+    default: "CompGrid — Compensation Intelligence",
     template: "%s | CompGrid",
   },
   description:
-    "Understand what your compensation is really worth across companies, levels, roles, and locations.",
+    "Compare compensation across companies, levels, roles, and locations with structured base salary, stock, bonus, and total compensation insights.",
+  openGraph: {
+    title: "CompGrid — Compensation Intelligence",
+    description:
+      "Compare compensation across companies, levels, roles, and locations with structured base salary, stock, bonus, and total compensation insights.",
+    type: "website",
+  },
 }
 
 export default function RootLayout({

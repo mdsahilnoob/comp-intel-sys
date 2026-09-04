@@ -18,7 +18,7 @@ Convert the existing single-package Next.js template into a pnpm-managed Turbore
 
 The repository root owns workspace orchestration and shared formatting configuration. `pnpm-workspace.yaml` includes `apps/*` and `packages/*`. `turbo.json` defines the `dev`, `build`, `lint`, and `typecheck` tasks. Root scripts delegate to Turbo with `turbo run ...`.
 
-The root package remains private and includes the `packageManager` declaration for pnpm 11.20.0. Application-specific runtime dependencies live in their application package rather than in the root package. Prettier remains available at the root because formatting spans the entire repository.
+The root package remains private and includes the `packageManager` declaration for pnpm 11.21.0. Application-specific runtime dependencies live in their application package rather than in the root package. Prettier remains available at the root because formatting spans the entire repository.
 
 ### Frontend application
 
@@ -68,4 +68,3 @@ The migration is complete when all of the following pass from the repository roo
 3. `pnpm typecheck` passes for both workspace applications.
 4. `pnpm build` passes for both workspace applications.
 5. Starting `pnpm dev` makes `http://localhost:3000` serve the existing frontend and `http://localhost:3001/server` return the documented JSON response.
-

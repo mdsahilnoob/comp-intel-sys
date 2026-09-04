@@ -6,7 +6,7 @@
 
 **Architecture:** The root package becomes a private Turbo orchestrator. The existing frontend source and design-system configuration move together into `apps/web`; a minimal independent App Router application lives in `apps/server`. Each package owns its application dependencies and task scripts, while the root delegates `dev`, `build`, `lint`, `typecheck`, `test`, and `format` workflows.
 
-**Tech Stack:** pnpm 11.20.0, Turborepo, Next.js 16.2.6, React 19.2.4, TypeScript, ESLint flat config, Tailwind CSS 4, shadcn/ui, and Node’s built-in test runner through `tsx`.
+**Tech Stack:** pnpm 11.21.0, Turborepo, Next.js 16.2.6, React 19.2.4, TypeScript, ESLint flat config, Tailwind CSS 4, shadcn/ui, and Node’s built-in test runner through `tsx`.
 
 **Spec:** `docs/superpowers/specs/2026-09-04-turborepo-next-monorepo-design.md`
 
@@ -32,8 +32,8 @@
 - Modify: `pnpm-lock.yaml` through `pnpm install`
 
 **Interfaces:**
-- Consumes: the existing root package metadata and pnpm 11.20.0 installation.
-- Produces: a private root package with `packageManager: "pnpm@11.20.0"`, root Turbo task scripts, workspace globs for `apps/*` and `packages/*`, and a Turbo task graph for `dev`, `build`, `start`, `lint`, `typecheck`, and `test`.
+- Consumes: the existing root package metadata and pnpm 11.21.0 installation.
+- Produces: a private root package with `packageManager: "pnpm@11.21.0"`, root Turbo task scripts, workspace globs for `apps/*` and `packages/*`, and a Turbo task graph for `dev`, `build`, `start`, `lint`, `typecheck`, and `test`.
 
 - [ ] **Step 1: Add root workspace and task configuration**
 
@@ -43,7 +43,7 @@ Update `package.json` so it contains no application runtime dependencies and has
 {
   "name": "comp-intel-sys",
   "private": true,
-  "packageManager": "pnpm@11.20.0",
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
@@ -381,4 +381,3 @@ git log -4 --oneline
 ```
 
 Expected: only intended monorepo files are changed, no design-system source file has content changes beyond relocation, and no npm/yarn lockfile is present.
-

@@ -1,20 +1,44 @@
-# Next.js template
+# Competition Intelligence System
 
-This is a Next.js template with shadcn/ui.
+This repository is a pnpm-managed Turborepo with two Next.js applications:
+
+- `apps/web` is the existing frontend and design system.
+- `apps/server` is the API application exposing `GET /server`.
+
+## Development
+
+Install dependencies and start both applications from the repository root:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+The frontend runs at `http://localhost:3000` and the API runs at `http://localhost:3001/server`.
+
+Other root commands are:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm format
+```
 
 ## Adding components
 
-To add components to your app, run the following command:
+To add components to the web app, run the following command from `apps/web`:
 
 ```bash
-npx shadcn@latest add button
+pnpm dlx shadcn@latest add button
 ```
 
-This will place the ui components in the `components` directory.
+This will place UI components in `apps/web/components/ui`.
 
 ## Using components
 
-To use the components in your app, import them as follows:
+Use components in the web app as follows:
 
 ```tsx
 import { Button } from "@/components/ui/button";

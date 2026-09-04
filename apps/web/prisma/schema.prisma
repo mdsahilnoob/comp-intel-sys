@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id          Int           @id @default(autoincrement())
+  name        String
+  slug        String        @unique
+  logoUrl     String?
+  industry    String?
+  website     String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  aliases     CompanyAlias[]
+  levels      CompanyLevel[]
+  submissions CompensationSubmission[]
+
+  @@index([name])
+}
+
+model CompanyAlias {
+  id             Int     @id @default(autoincrement())
+  companyId      Int
+  alias          String
+  normalizedAlias String  @unique
+  company        Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+}
+
+model Role {
+  id          Int           @id @default(autoincrement())
+  name        String
+  slug        String        @unique
+  category    String?
+  aliases     RoleAlias[]
+  submissions CompensationSubmission[]
+
+  @@index([name])
+}
+
+model RoleAlias {
+  id          Int    @id @default(autoincrement())
+  roleId      Int
+  alias       String
+  normalizedAlias String @unique
+  role        Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@index([roleId])
+}
+
+model CareerLevel {
+  id          Int           @id @default(autoincrement())
+  code        String        @unique
+  name        String
+  rank        Int           @unique
+  companyLevels CompanyLevel[]
+
+  @@index([rank])
+}
+
+model CompanyLevel {
+  id                 Int           @id @default(autoincrement())
+  companyId          Int
+  careerLevelId      Int
+  code               String
+  displayName        String?
+  rank               Int
+  minYearsExperience Int?
+  maxYearsExperience Int?
+  company            Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  careerLevel        CareerLevel   @relation(fields: [careerLevelId], references: [id], onDelete: Restrict)
+  submissions        CompensationSubmission[]
+
+  @@unique([companyId, code])
+  @@index([companyId])
+  @@index([careerLevelId])
+  @@index([companyId, careerLevelId])
+}
+
+model Location {
+  id          Int           @id @default(autoincrement())
+  city        String
+  state       String?
+  country     String
+  slug        String        @unique
+  submissions CompensationSubmission[]
+
+  @@unique([city, country])
+  @@index([country, city])
+}
+
+model CompensationSubmission {
+  id                 Int       @id @default(autoincrement())
+  companyId          Int
+  roleId             Int
+  companyLevelId     Int
+  locationId         Int
+  baseSalary         Int
+  stockAnnual        Int       @default(0)
+  bonusAnnual        Int       @default(0)
+  totalCompensation  Int
+  currency           String    @default("INR")
+  yearsExperience    Int
+  compensationYear   Int
+  verified           Boolean   @default(false)
+  source             String    @default("synthetic-demo")
+  fingerprint        String    @unique
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  company            Company  @relation(fields: [companyId], references: [id], onDelete: Restrict)
+  role               Role     @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  companyLevel       CompanyLevel @relation(fields: [companyLevelId], references: [id], onDelete: Restrict)
+  location           Location @relation(fields: [locationId], references: [id], onDelete: Restrict)
+
+  @@index([companyId])
+  @@index([roleId])
+  @@index([companyLevelId])
+  @@index([locationId])
+  @@index([totalCompensation])
+  @@index([createdAt])
+  @@index([companyId, roleId, locationId])
+  @@index([roleId, locationId, totalCompensation])
+}

@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "build:cloudflare": "pnpm --filter @comp-intel/web cf-build",
     "start": "turbo run start",
+    "deploy:cloudflare": "pnpm --filter @comp-intel/web exec wrangler deploy",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",

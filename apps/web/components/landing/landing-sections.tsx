@@ -146,7 +146,7 @@ export function ProductPreviewSection() {
                 <div><p className="dashboard-kicker">MARKET VIEW / 04 FILTERS</p><h3>Software Engineer compensation</h3></div>
                 <span className="dashboard-updated">Illustrative slice · Bengaluru</span>
               </div>
-              <div className="dashboard-filters" aria-label="Example explorer filters">
+              <div className="dashboard-filters" role="group" aria-label="Example explorer filters">
                 {filters.map((filter, index) => <div className="dashboard-filter" key={filter}><span>{["Role", "Location", "Company", "Level"][index]}</span><strong>{filter}</strong><ChevronRight aria-hidden="true" /></div>)}
               </div>
               <div className="dashboard-metrics">
@@ -307,7 +307,7 @@ export function NormalizationPipelineSection() {
         <Reveal className="pipeline-board-wrap" delay={120}>
           <div className="pipeline-board">
             <div className="pipeline-input"><span className="pipeline-label">RAW SUBMISSION</span><strong>Google India Pvt. Ltd.</strong><strong>SWE II</strong><strong>L4</strong><strong>Bangalore</strong><div className="pipeline-money"><span>₹46L base</span><span>₹20L RSU annual</span><span>₹7L bonus</span></div></div>
-            <div className="pipeline-stages" aria-label="Normalization stages">{pipelineStages.map((stage, index) => <div key={stage} className="pipeline-stage" style={{ "--stage-delay": `${index * 100}ms` } as CSSProperties}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong><i aria-hidden="true" /></div>)}</div>
+            <div className="pipeline-stages" role="list" aria-label="Normalization stages">{pipelineStages.map((stage, index) => <div key={stage} className="pipeline-stage" role="listitem" style={{ "--stage-delay": `${index * 100}ms` } as CSSProperties}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong><i aria-hidden="true" /></div>)}</div>
             <div className="pipeline-output"><span className="pipeline-label">GRID-READY RECORD</span><strong>Google</strong><strong>Software Engineer</strong><strong>L4 <i>→ MID</i></strong><strong>Bengaluru</strong><div className="pipeline-total"><span>₹73L</span><small>TOTAL COMP</small></div></div>
           </div>
           <p className="pipeline-note"><Check aria-hidden="true" /> Every step is deterministic, inspectable, and testable.</p>

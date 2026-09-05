@@ -47,7 +47,7 @@ export function AnimatedNumber({
   }, [duration, reduceMotion, value])
 
   return (
-    <span className={className} aria-label={`${prefix}${value}${suffix}`}>
+    <span className={className}>
       {prefix}
       {new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(
         Math.round(reduceMotion ? value : displayValue),

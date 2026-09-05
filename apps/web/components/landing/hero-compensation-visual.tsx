@@ -52,7 +52,7 @@ export function HeroCompensationVisual() {
   )
 
   return (
-    <div className="hero-visual-wrap" aria-label="Illustrative compensation module">
+    <div className="hero-visual-wrap">
       <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
       <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
       <article className="hero-comp-card">
@@ -101,7 +101,11 @@ export function HeroCompensationVisual() {
             <span>Annual package mix</span>
             <span>₹{selected.total}L total</span>
           </div>
-          <div className="hero-comp-bar" aria-label="Compensation composition">
+          <div
+            className="hero-comp-bar"
+            role="img"
+            aria-label={`${selected.company} ${selected.level} compensation composition: base ₹${selected.base}L, stock ₹${selected.stock}L, bonus ₹${selected.bonus}L`}
+          >
             {breakdown.map((item) => (
               <span
                 key={`${selected.id}-${item.label}`}

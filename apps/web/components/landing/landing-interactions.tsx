@@ -64,7 +64,11 @@ export function CompensationBreakdown() {
         </p>
       </div>
 
-      <div className="breakdown-bar" aria-label={`${selected.company} compensation composition`}>
+      <div
+        className="breakdown-bar"
+        role="group"
+        aria-label={`${selected.company} compensation composition`}
+      >
         {parts.map((part) => (
           <button
             key={`${selected.id}-${part.id}`}

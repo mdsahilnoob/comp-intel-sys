@@ -23,10 +23,75 @@ test("serves the marketing landing page at the root route", async ({ page }) => 
 test("links the CompGrid wordmark to the home route", async ({ page }) => {
   await page.goto("/explore")
 
-  await expect(page.getByRole("link", { name: "CompGrid home" })).toHaveAttribute(
-    "href",
-    "/",
-  )
+  await expect(page.locator("header").getByRole("link", { name: "CompGrid home" })).toHaveAttribute("href", "/")
+})
+
+test("keeps the comparison story readable and synchronized on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto"
+  })
+
+  const steps = page.locator("#story .story-step")
+  await expect(steps).toHaveCount(3)
+  await expect(page.locator("#story .story-mobile-visual")).toHaveCount(3)
+
+  for (let index = 0; index < 3; index += 1) {
+    await page.evaluate((stepIndex) => {
+      const element = document.querySelectorAll("#story .story-step")[stepIndex]
+      if (!element) return
+
+      window.scrollTo(
+        0,
+        window.scrollY + element.getBoundingClientRect().top - window.innerHeight * 0.28,
+      )
+    }, index)
+
+    await expect(steps.nth(index)).toHaveClass(/is-active/)
+    await expect(steps.nth(index).locator(".story-mobile-visual")).toBeVisible()
+    await expect(steps.nth(index).locator(".story-mobile-visual")).toBeInViewport()
+  }
+})
+
+test("keeps the desktop story visualization visible for every step", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("/")
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto"
+  })
+
+  const steps = page.locator("#story .story-step")
+  const visual = page.locator("#story .story-visual")
+
+  for (let index = 0; index < 3; index += 1) {
+    await page.evaluate((stepIndex) => {
+      const element = document.querySelectorAll("#story .story-step")[stepIndex]
+      if (!element) return
+
+      window.scrollTo(
+        0,
+        window.scrollY + element.getBoundingClientRect().top - window.innerHeight * 0.28,
+      )
+    }, index)
+
+    await expect(steps.nth(index)).toHaveClass(/is-active/)
+    await expect(visual).toBeVisible()
+    await expect(visual).toBeInViewport()
+    await expect(page.locator("#story .story-visual-index")).toHaveText(
+      `${String(index + 1).padStart(2, "0")} / 03`,
+    )
+  }
+})
+
+test("presents the comparison story as a stable data module", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("/")
+  await page.locator("#story").scrollIntoViewIfNeeded()
+
+  await expect(page.locator("#story .story-visual-chrome")).toBeVisible()
+  await expect(page.locator("#story .story-visual-index")).toHaveText("01 / 03")
+  await expect(page.locator("#story .story-step-status")).toHaveCount(3)
 })
 
 test("explores the market and reaches the primary workflows", async ({ page }) => {

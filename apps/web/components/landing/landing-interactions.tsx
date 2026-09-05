@@ -128,21 +128,56 @@ const storySteps = [
   },
 ]
 
+function StoryVisual({ step }: { step: number }) {
+  if (step === 1) return <MixStoryVisual />
+  if (step === 2) return <MarketStoryVisual />
+  return <LevelStoryVisual />
+}
+
 export function ComparisonStory() {
   const [activeStep, setActiveStep] = useState(0)
   const stepsRef = useRef<Array<HTMLElement | null>>([])
+  const activeStory = storySteps[activeStep] ?? storySteps[0]
 
   useEffect(() => {
+    if (!("IntersectionObserver" in window)) return
+
+    const visibility = new Map<Element, number>()
+
+    const updateActiveStep = () => {
+      const viewportAnchor = window.innerHeight * 0.42
+      let nextStep = -1
+      let bestScore = Number.NEGATIVE_INFINITY
+
+      visibility.forEach((ratio, element) => {
+        if (ratio <= 0) return
+
+        const index = Number((element as HTMLElement).dataset.storyIndex)
+        if (Number.isNaN(index)) return
+
+        const rect = element.getBoundingClientRect()
+        const centerDistance = Math.abs(rect.top + rect.height / 2 - viewportAnchor)
+        const score = ratio * 1000 - centerDistance
+
+        if (score > bestScore) {
+          bestScore = score
+          nextStep = index
+        }
+      })
+
+      if (nextStep >= 0) {
+        setActiveStep((currentStep) => (currentStep === nextStep ? currentStep : nextStep))
+      }
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (!visible) return
-        const index = Number((visible.target as HTMLElement).dataset.storyIndex)
-        if (!Number.isNaN(index)) setActiveStep(index)
+        entries.forEach((entry) => {
+          visibility.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0)
+        })
+        updateActiveStep()
       },
-      { threshold: [0.25, 0.6], rootMargin: "-20% 0px -30% 0px" },
+      { threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-18% 0px -25% 0px" },
     )
 
     stepsRef.current.forEach((step) => {
@@ -161,19 +196,50 @@ export function ComparisonStory() {
               stepsRef.current[index] = element
             }}
             data-story-index={index}
+            aria-current={activeStep === index ? "step" : undefined}
             className={`story-step ${activeStep === index ? "is-active" : ""}`}
           >
-            <p className="eyebrow eyebrow-dark">{step.eyebrow}</p>
+            <div className="story-step-meta">
+              <p className="eyebrow eyebrow-dark">{step.eyebrow}</p>
+              <span className={`story-step-status ${activeStep === index ? "is-active" : ""}`}>
+                {activeStep === index ? "In focus" : "Next view"}
+              </span>
+            </div>
             <h3>{step.title}</h3>
-            <p>{step.body}</p>
+            <p className="story-step-body">{step.body}</p>
+            <div className="story-mobile-visual" aria-hidden="true">
+              <div className="story-mobile-visual-label">
+                <span>CompGrid / {step.eyebrow.split(" / ")[1]}</span>
+                <span>Illustrative lens</span>
+              </div>
+              <StoryVisual step={index} />
+            </div>
           </article>
         ))}
       </div>
       <div className="story-visual-wrap">
         <div className="story-visual" aria-live="polite">
-          {activeStep === 0 ? <LevelStoryVisual /> : null}
-          {activeStep === 1 ? <MixStoryVisual /> : null}
-          {activeStep === 2 ? <MarketStoryVisual /> : null}
+          <div className="story-visual-chrome">
+            <span className="story-visual-chrome-label">
+              <i className="story-visual-signal" aria-hidden="true" />
+              CompGrid / signal view
+            </span>
+            <span className="story-visual-index">{String(activeStep + 1).padStart(2, "0")} / 03</span>
+          </div>
+          <div className="story-visual-title-row">
+            <div>
+              <p className="story-visual-kicker">Current lens</p>
+              <strong>{activeStory.title}</strong>
+            </div>
+            <span className="story-visual-demo">Illustrative data</span>
+          </div>
+          <div className="story-visual-body">
+            <StoryVisual step={activeStep} />
+          </div>
+          <div className="story-visual-footer">
+            <span>Active signal / {activeStory.eyebrow}</span>
+            <span>Static demo dataset</span>
+          </div>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ export function MobileNav({ items }: { items: MobileNavItem[] }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="relative md:hidden">
+    <div className="mobile-nav relative md:hidden">
       <Button
         variant="outline"
         size="icon"

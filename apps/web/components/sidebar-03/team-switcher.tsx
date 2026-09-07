@@ -1,7 +1,8 @@
 'use client';
 
-import { ChevronsUpDown, Plus } from 'lucide-react';
 import * as React from 'react';
+import { ChevronsUpDownIcon } from '@/components/ui/chevrons-up-down';
+import { PlusIcon } from '@/components/ui/plus';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,7 +52,7 @@ export function TeamSwitcher({ teams }: { teams: Team[] }) {
               <span className="truncate font-semibold">{activeTeam.name}</span>
               <span className="truncate text-xs">{activeTeam.plan}</span>
             </div>
-            <ChevronsUpDown className="ml-auto" />
+            <ChevronsUpDownIcon size={16} className="ml-auto" aria-hidden="true" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
@@ -78,7 +79,7 @@ export function TeamSwitcher({ teams }: { teams: Team[] }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
+              <PlusIcon size={16} className="size-4" aria-hidden="true" />
               </div>
               <div className="font-medium text-muted-foreground">Add team</div>
             </DropdownMenuItem>

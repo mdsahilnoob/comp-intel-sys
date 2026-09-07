@@ -1,4 +1,3 @@
-import { ArrowUpRight, Package } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -9,6 +8,8 @@ import {
 } from "@/server/ai-companies";
 import { CompanyLogo } from "@/components/company/company-logo";
 import { Badge } from "@/components/ui/badge";
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right";
+import { BoxIcon } from "@/components/ui/box";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function CompanyCard({ company }: { company: AiCompanyDirectoryEntry }) {
@@ -44,7 +45,7 @@ export function CompanyCard({ company }: { company: AiCompanyDirectoryEntry }) {
         </div>
         <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
-            <Package className="size-3.5" aria-hidden="true" />
+            <BoxIcon size={14} className="size-3.5" aria-hidden="true" />
             {company.productCount}{" "}
             {company.productCount === 1 ? "product" : "products"}
           </span>
@@ -55,7 +56,11 @@ export function CompanyCard({ company }: { company: AiCompanyDirectoryEntry }) {
           className="inline-flex min-h-10 items-center justify-between rounded-lg border border-border px-3 text-sm font-semibold transition-colors hover:border-primary/40 hover:bg-secondary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/20"
         >
           View company
-          <ArrowUpRight className="size-4 text-primary" aria-hidden="true" />
+          <ArrowUpRightIcon
+            size={16}
+            className="size-4 text-primary"
+            aria-hidden="true"
+          />
         </Link>
       </CardContent>
     </Card>

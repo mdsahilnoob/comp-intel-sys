@@ -1,12 +1,13 @@
 "use client"
 
-import { SlidersHorizontal, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useRef, useState, useTransition } from "react"
 
 import type { CatalogOptions, ExplorerFilters } from "@/server/domain"
 import { Button } from "@/components/ui/button"
 import { Select } from "@/components/ui/select"
+import { SlidersHorizontalIcon } from "@/components/ui/sliders-horizontal"
+import { XIcon } from "@/components/ui/x"
 
 export function FilterBar({ catalog, filters }: { catalog: CatalogOptions; filters: ExplorerFilters }) {
   const router = useRouter()
@@ -43,7 +44,7 @@ export function FilterBar({ catalog, filters }: { catalog: CatalogOptions; filte
   </>
 
   return <section className="rounded-2xl border border-border/80 bg-card p-4 shadow-sm sm:p-5" aria-label="Explorer filters">
-    <div className="flex items-center justify-between gap-3 md:hidden"><div className="flex items-center gap-2 font-heading text-sm font-semibold"><SlidersHorizontal className="size-4 text-primary" />Filters</div><Button type="button" variant="ghost" size="sm" onClick={() => setOpen((value) => !value)} aria-expanded={open}>{open ? <><X className="size-4" /> Close</> : "Show filters"}</Button></div>
+    <div className="flex items-center justify-between gap-3 md:hidden"><div className="flex items-center gap-2 font-heading text-sm font-semibold"><SlidersHorizontalIcon size={16} className="size-4 text-primary" aria-hidden="true" />Filters</div><Button type="button" variant="ghost" size="sm" onClick={() => setOpen((value) => !value)} aria-expanded={open}>{open ? <><XIcon size={16} className="size-4" aria-hidden="true" /> Close</> : "Show filters"}</Button></div>
     <div className={`${open ? "grid" : "hidden"} mt-4 gap-3 md:mt-0 md:grid md:grid-cols-4`}>{controls}</div>
     <form onSubmit={submitRanges} className={`${open ? "grid" : "hidden"} mt-3 gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] md:grid`}>
       <label className="grid gap-1.5 text-xs font-semibold text-muted-foreground">Min total comp<input className="h-11 rounded-lg border border-input bg-background px-3.5 text-sm" inputMode="numeric" placeholder="₹ 10,00,000" value={minTc} onChange={(event) => setMinTc(event.target.value.replace(/[^0-9]/g, ""))} /></label>

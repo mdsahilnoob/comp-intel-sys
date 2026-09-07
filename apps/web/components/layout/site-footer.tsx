@@ -1,5 +1,6 @@
-import { ArrowUpRight } from "lucide-react"
 import Link from "next/link"
+
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right"
 
 const productLinks = [
   ["Explore compensation", "/explore"],
@@ -47,7 +48,7 @@ export function SiteFooter() {
             <p className="footer-column-label">Data scope</p>
             <p className="footer-scope-title">India <span>/</span> INR <span>/</span> Levels first</p>
             <p className="footer-scope-copy">Every figure is illustrative, synthetic, and included to show how the product works.</p>
-            <Link className="footer-scope-link" href="/methodology">Read the methodology <ArrowUpRight aria-hidden="true" /></Link>
+            <Link className="footer-scope-link" href="/methodology">Read the methodology <ArrowUpRightIcon size={13} aria-hidden="true" /></Link>
           </div>
         </div>
 

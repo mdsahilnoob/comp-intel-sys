@@ -1,8 +1,8 @@
-import { ArrowUpRight, Box } from "lucide-react";
-
 import type { AiProductDefinition } from "@/server/ai-companies";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right";
+import { BoxIcon } from "@/components/ui/box";
 
 export function ProductCard({ product }: { product: AiProductDefinition }) {
   return (
@@ -10,7 +10,7 @@ export function ProductCard({ product }: { product: AiProductDefinition }) {
       <CardHeader className="gap-3 pb-3">
         <div className="flex items-start justify-between gap-3">
           <span className="grid size-9 place-items-center rounded-lg bg-secondary text-primary">
-            <Box className="size-4" aria-hidden="true" />
+            <BoxIcon size={16} className="size-4" aria-hidden="true" />
           </span>
           <Badge variant="outline">{product.category}</Badge>
         </div>
@@ -28,7 +28,7 @@ export function ProductCard({ product }: { product: AiProductDefinition }) {
             className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
           >
             Open product
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            <ArrowUpRightIcon size={14} className="size-3.5" aria-hidden="true" />
           </a>
         ) : null}
       </CardContent>

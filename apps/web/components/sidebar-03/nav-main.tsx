@@ -1,9 +1,10 @@
 'use client';
 
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import type React from 'react';
 import { useState } from 'react';
+import { ChevronDownIcon } from '@/components/ui/chevron-down';
+import { ChevronsDownUpIcon } from '@/components/ui/chevrons-down-up';
 import {
   Collapsible,
   CollapsibleContent,
@@ -75,9 +76,9 @@ export default function DashboardNavigation({ routes }: { routes: Route[] }) {
                   {!isCollapsed && hasSubRoutes && (
                     <span className="ml-auto">
                       {isOpen ? (
-                        <ChevronUp className="size-4" />
+                        <ChevronsDownUpIcon size={16} className="size-4" aria-hidden="true" />
                       ) : (
-                        <ChevronDown className="size-4" />
+                        <ChevronDownIcon size={16} className="size-4" aria-hidden="true" />
                       )}
                     </span>
                   )}

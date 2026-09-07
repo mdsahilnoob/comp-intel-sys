@@ -1,10 +1,11 @@
 "use client"
 
-import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
+import { MenuIcon } from "@/components/ui/menu"
+import { XIcon } from "@/components/ui/x"
 
 interface MobileNavItem {
   href: string
@@ -24,7 +25,7 @@ export function MobileNav({ items }: { items: MobileNavItem[] }) {
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
       >
-        {open ? <X aria-hidden={true} /> : <Menu aria-hidden={true} />}
+        {open ? <XIcon size={20} className="size-5" aria-hidden={true} /> : <MenuIcon size={20} className="size-5" aria-hidden={true} />}
       </Button>
       {open ? (
         <div className="mobile-nav-sheet absolute top-14 right-0 z-50 w-72 rounded-2xl border border-border bg-card p-2 shadow-xl">

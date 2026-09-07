@@ -1,10 +1,3 @@
-import {
-  ArrowUpRight,
-  CalendarDays,
-  MapPin,
-  Package,
-  ShieldCheck,
-} from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -18,20 +11,31 @@ import { ProductCard } from "@/components/company/product-card";
 import { PageContainer } from "@/components/layout/page-container";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right";
+import { BoxIcon } from "@/components/ui/box";
+import { CalendarDaysIcon } from "@/components/ui/calendar-days";
+import { MapPinIcon } from "@/components/ui/map-pin";
+import { ShieldCheckIcon } from "@/components/ui/shield-check";
+
+type MetadataIcon = React.ComponentType<{
+  className?: string;
+  size?: number;
+  "aria-hidden"?: boolean;
+}>;
 
 function MetadataItem({
   icon: Icon,
   label,
   value,
 }: {
-  icon: typeof CalendarDays;
+  icon: MetadataIcon;
   label: string;
   value: string;
 }) {
   return (
     <div className="rounded-xl border border-border/70 bg-card p-4">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-        <Icon className="size-3.5 text-primary" aria-hidden="true" />
+        <Icon size={14} className="size-3.5 text-primary" aria-hidden={true} />
         {label}
       </div>
       <p className="mt-2 font-heading text-base font-bold">{value}</p>
@@ -88,7 +92,11 @@ export function CompanyDetail({ company }: { company: AiCompanyDetailData }) {
             className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-input px-3.5 text-sm font-semibold transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/20"
           >
             Visit website
-            <ArrowUpRight className="size-4 text-primary" aria-hidden="true" />
+            <ArrowUpRightIcon
+              size={16}
+              className="size-4 text-primary"
+              aria-hidden="true"
+            />
           </a>
         ) : null}
       </header>
@@ -98,22 +106,22 @@ export function CompanyDetail({ company }: { company: AiCompanyDetailData }) {
         aria-label="Company metadata"
       >
         <MetadataItem
-          icon={CalendarDays}
+          icon={CalendarDaysIcon}
           label="Founded"
           value={String(company.foundedYear)}
         />
         <MetadataItem
-          icon={MapPin}
+          icon={MapPinIcon}
           label="Location"
           value={`${company.city}, ${getAiCountryLabel(company.country)}`}
         />
         <MetadataItem
-          icon={ShieldCheck}
+          icon={ShieldCheckIcon}
           label="Status"
           value={getAiStatusLabel(company.status)}
         />
         <MetadataItem
-          icon={Package}
+          icon={BoxIcon}
           label="Products"
           value={String(company.productCount)}
         />

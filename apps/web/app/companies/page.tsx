@@ -4,14 +4,12 @@ import { PageContainer } from "@/components/layout/page-container";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { CompanyDirectory } from "@/components/company/company-directory";
 import { CompanyDirectoryFooter } from "@/components/company/company-directory-footer";
-import { CompaniesSearch } from "@/components/company/companies-search";
+import { CompanyDirectoryFilters } from "@/components/company/company-directory-filters";
+import { CompanyDirectorySearch } from "@/components/company/company-directory-search";
 import { CompanyPagination } from "@/components/company/company-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { toSingleValueRecord } from "@/lib/urls";
-import {
-  AI_COMPANY_STATUSES,
-  AI_COUNTRY_OPTIONS,
-} from "@/server/ai-companies";
+import { AI_COUNTRY_OPTIONS } from "@/server/ai-companies";
 import {
   getAiCompanyCategories,
   getAiCompanyDirectory,
@@ -40,19 +38,19 @@ export default async function CompaniesPage({
 
   return (
     <PageContainer className="pb-16 pt-6 sm:pt-10">
-      <div className="mb-8 max-w-3xl">
-        <CompaniesSearch
-          query={query}
-          categories={categories}
-          countryOptions={AI_COUNTRY_OPTIONS}
-          statusOptions={AI_COMPANY_STATUSES}
-        />
-      </div>
       <SectionHeading
         eyebrow="AI Companies"
         title="Discover companies shaping artificial intelligence."
         description="Explore the labs, infrastructure teams, developer platforms, and products moving the AI ecosystem forward."
       />
+      <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <CompanyDirectorySearch key={query.search ?? ""} query={query} />
+        <CompanyDirectoryFilters
+          query={query}
+          categories={categories}
+          countryOptions={AI_COUNTRY_OPTIONS}
+        />
+      </div>
       <div className="mt-7 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
           {result.pagination.total.toLocaleString("en-US")} {" "}

@@ -1,24 +1,21 @@
 "use client"
 
-import {
-  BookOpen,
-  Building2,
-  ChartNoAxesCombined,
-  GitCompareArrows,
-  Layers3,
-  Search,
-} from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { BoxIcon } from "@/components/ui/box"
+import { ChartNoAxesColumnIncreasingIcon } from "@/components/ui/chart-no-axes-column-increasing"
+import { GitCompareArrowsIcon } from "@/components/ui/git-compare-arrows"
+import { LayersIcon } from "@/components/ui/layers"
+import { SearchIcon } from "@/components/ui/search"
 
 const navItems = [
-  { href: "/#product", label: "Product", icon: Layers3 },
-  { href: "/explore", label: "Explore", icon: Search },
-  { href: "/companies", label: "Companies", icon: Building2 },
-  { href: "/compare", label: "Compare", icon: GitCompareArrows },
-  { href: "/methodology", label: "Methodology", icon: BookOpen },
+  { href: "/#product", label: "Product", icon: LayersIcon },
+  { href: "/explore", label: "Explore", icon: SearchIcon },
+  { href: "/companies", label: "Companies", icon: BoxIcon },
+  { href: "/compare", label: "Compare", icon: GitCompareArrowsIcon },
+  { href: "/methodology", label: "Methodology", icon: LayersIcon },
 ]
 const mobileNavItems = navItems.map(({ href, label }) => ({ href, label }))
 
@@ -77,7 +74,7 @@ export function SiteHeader() {
               href={href}
               className="site-header-link inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/20"
             >
-              <Icon className="size-4" aria-hidden="true" />
+              <Icon size={16} className="size-4" aria-hidden="true" />
               {label}
             </Link>
           ))}
@@ -91,7 +88,7 @@ export function SiteHeader() {
             href="/research"
             className="site-header-link hidden min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/20 lg:inline-flex"
           >
-            <ChartNoAxesCombined className="size-4" aria-hidden="true" />
+            <ChartNoAxesColumnIncreasingIcon size={16} className="size-4" aria-hidden="true" />
             Research
           </Link>
           <Link

@@ -1,22 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  Activity,
-  DollarSign,
-  Home,
-  Infinity,
-  LinkIcon,
-  Package2,
-  Percent,
-  PieChart,
-  Settings,
-  ShoppingBag,
-  Sparkles,
-  Store,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import { ArrowUpRightIcon as LinkIcon } from '@/components/ui/arrow-up-right';
+import { BoxIcon as DollarSign, BoxIcon as Package2, BoxIcon as ShoppingBag, BoxIcon as Store, BoxIcon as Users } from '@/components/ui/box';
+import { ChartNoAxesColumnIncreasingIcon as Activity, ChartNoAxesColumnIncreasingIcon as PieChart, ChartNoAxesColumnIncreasingIcon as TrendingUp } from '@/components/ui/chart-no-axes-column-increasing';
+import { LayersIcon as Home, LayersIcon as Infinity, LayersIcon as Sparkles } from '@/components/ui/layers';
+import { ShieldCheckIcon as Percent } from '@/components/ui/shield-check';
+import { SlidersHorizontalIcon as Settings } from '@/components/ui/sliders-horizontal';
 import {
   Sidebar,
   SidebarContent,
@@ -60,96 +50,96 @@ const dashboardRoutes: Route[] = [
   {
     id: 'home',
     title: 'Home',
-    icon: <Home className="size-4" />,
+    icon: <Home size={16} className="size-4" />,
     link: '#',
   },
   {
     id: 'products',
     title: 'Products',
-    icon: <Package2 className="size-4" />,
+    icon: <Package2 size={16} className="size-4" />,
     link: '#',
     subs: [
       {
         title: 'Catalogue',
         link: '#',
-        icon: <Package2 className="size-4" />,
+        icon: <Package2 size={16} className="size-4" />,
       },
       {
         title: 'Checkout Links',
         link: '#',
-        icon: <LinkIcon className="size-4" />,
+        icon: <LinkIcon size={16} className="size-4" />,
       },
       {
         title: 'Discounts',
         link: '#',
-        icon: <Percent className="size-4" />,
+        icon: <Percent size={16} className="size-4" />,
       },
     ],
   },
   {
     id: 'usage-billing',
     title: 'Usage Billing',
-    icon: <PieChart className="size-4" />,
+    icon: <PieChart size={16} className="size-4" />,
     link: '#',
     subs: [
       {
         title: 'Meters',
         link: '#',
-        icon: <PieChart className="size-4" />,
+        icon: <PieChart size={16} className="size-4" />,
       },
       {
         title: 'Events',
         link: '#',
-        icon: <Activity className="size-4" />,
+        icon: <Activity size={16} className="size-4" />,
       },
     ],
   },
   {
     id: 'benefits',
     title: 'Benefits',
-    icon: <Sparkles className="size-4" />,
+    icon: <Sparkles size={16} className="size-4" />,
     link: '#',
   },
   {
     id: 'customers',
     title: 'Customers',
-    icon: <Users className="size-4" />,
+    icon: <Users size={16} className="size-4" />,
     link: '#',
   },
   {
     id: 'sales',
     title: 'Sales',
-    icon: <ShoppingBag className="size-4" />,
+    icon: <ShoppingBag size={16} className="size-4" />,
     link: '#',
     subs: [
       {
         title: 'Orders',
         link: '#',
-        icon: <ShoppingBag className="size-4" />,
+        icon: <ShoppingBag size={16} className="size-4" />,
       },
       {
         title: 'Subscriptions',
         link: '#',
-        icon: <Infinity className="size-4" />,
+        icon: <Infinity size={16} className="size-4" />,
       },
     ],
   },
   {
     id: 'storefront',
     title: 'Storefront',
-    icon: <Store className="size-4" />,
+    icon: <Store size={16} className="size-4" />,
     link: '#',
   },
   {
     id: 'analytics',
     title: 'Analytics',
-    icon: <TrendingUp className="size-4" />,
+    icon: <TrendingUp size={16} className="size-4" />,
     link: '#',
   },
   {
     id: 'finance',
     title: 'Finance',
-    icon: <DollarSign className="size-4" />,
+    icon: <DollarSign size={16} className="size-4" />,
     link: '#',
     subs: [
       { title: 'Incoming', link: '#' },
@@ -160,7 +150,7 @@ const dashboardRoutes: Route[] = [
   {
     id: 'settings',
     title: 'Settings',
-    icon: <Settings className="size-4" />,
+    icon: <Settings size={16} className="size-4" />,
     link: '#',
     subs: [
       { title: 'General', link: '#' },

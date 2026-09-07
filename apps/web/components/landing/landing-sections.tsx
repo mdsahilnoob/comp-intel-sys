@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from "react"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight, Check, ChevronRight } from "lucide-react"
 
 import {
   careerProgression,
@@ -15,6 +14,10 @@ import { CompensationBreakdown, ComparisonStory } from "@/components/landing/lan
 import { AnimatedNumber } from "@/components/landing/motion/animated-number"
 import { DrawLine } from "@/components/landing/motion/draw-line"
 import { Reveal } from "@/components/landing/motion/reveal"
+import { ArrowRightIcon } from "@/components/ui/arrow-right"
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right"
+import { CheckIcon } from "@/components/ui/check"
+import { ChevronRightIcon } from "@/components/ui/chevron-right"
 
 function SectionIntro({
   eyebrow,
@@ -147,7 +150,7 @@ export function ProductPreviewSection() {
                 <span className="dashboard-updated">Illustrative slice · Bengaluru</span>
               </div>
               <div className="dashboard-filters" role="group" aria-label="Example explorer filters">
-                {filters.map((filter, index) => <div className="dashboard-filter" key={filter}><span>{["Role", "Location", "Company", "Level"][index]}</span><strong>{filter}</strong><ChevronRight aria-hidden="true" /></div>)}
+                {filters.map((filter, index) => <div className="dashboard-filter" key={filter}><span>{["Role", "Location", "Company", "Level"][index]}</span><strong>{filter}</strong><ChevronRightIcon size={16} aria-hidden="true" /></div>)}
               </div>
               <div className="dashboard-metrics">
                 <div className="dashboard-metric dashboard-metric-primary"><span>Median TC</span><AnimatedNumber value={68} prefix="₹" suffix="L" /><small>50th percentile</small></div>
@@ -310,7 +313,7 @@ export function NormalizationPipelineSection() {
             <div className="pipeline-stages" role="list" aria-label="Normalization stages">{pipelineStages.map((stage, index) => <div key={stage} className="pipeline-stage" role="listitem" style={{ "--stage-delay": `${index * 100}ms` } as CSSProperties}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong><i aria-hidden="true" /></div>)}</div>
             <div className="pipeline-output"><span className="pipeline-label">GRID-READY RECORD</span><strong>Google</strong><strong>Software Engineer</strong><strong>L4 <i>→ MID</i></strong><strong>Bengaluru</strong><div className="pipeline-total"><span>₹73L</span><small>TOTAL COMP</small></div></div>
           </div>
-          <p className="pipeline-note"><Check aria-hidden="true" /> Every step is deterministic, inspectable, and testable.</p>
+          <p className="pipeline-note"><CheckIcon size={16} aria-hidden="true" /> Every step is deterministic, inspectable, and testable.</p>
         </Reveal>
       </div>
     </section>
@@ -355,7 +358,7 @@ export function MethodologySection() {
         <div className="methodology-grid">
           {principles.map(([label, value], index) => <Reveal as="article" className="methodology-principle" delay={index * 70} key={label}><span>0{index + 1}</span><p>{label}</p><strong>{value}</strong></Reveal>)}
         </div>
-        <Reveal className="methodology-link-wrap" delay={240}><Link className="text-link" href="/methodology">Read methodology <ArrowUpRight aria-hidden="true" /></Link></Reveal>
+        <Reveal className="methodology-link-wrap" delay={240}><Link className="text-link" href="/methodology">Read methodology <ArrowUpRightIcon size={16} aria-hidden="true" /></Link></Reveal>
       </div>
     </section>
   )
@@ -371,7 +374,8 @@ export function FinalCTA() {
           <p className="eyebrow eyebrow-light"><span className="eyebrow-signal" aria-hidden="true" />COMPGRID / NEXT VIEW</p>
           <h2>Compare compensation<br /><em>with context.</em></h2>
           <p className="final-cta-body">See how companies, levels, and compensation structure actually compare.</p>
-          <div className="final-cta-actions"><Link className="button button-primary" href="/explore">Explore compensation <ArrowRight aria-hidden="true" /></Link><Link className="button button-ghost" href="/compare">Compare companies</Link></div>
+          <div className="final-cta-actions"><Link className="button button-primary" href="/explore">Explore compensation <ArrowRightIcon size={16} aria-hidden="true" />
+          </Link><Link className="button button-ghost" href="/compare">Compare companies</Link></div>
         </Reveal>
       </div>
     </section>

@@ -1,6 +1,6 @@
 'use client';
 
-import { BellIcon } from 'lucide-react';
+import { BellIcon } from '@/components/ui/bell';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +37,7 @@ export function NotificationsPopover({
           />
         }
       >
-        <BellIcon className="size-5" />
+        <BellIcon size={20} className="size-5" aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="my-6 w-80" side="right">
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>

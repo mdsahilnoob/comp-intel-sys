@@ -1,8 +1,9 @@
 import Link from "next/link"
-import { ArrowRight, MoveDownRight } from "lucide-react"
 
 import { HeroCompensationVisual } from "@/components/landing/hero-compensation-visual"
 import { Reveal } from "@/components/landing/motion/reveal"
+import { ArrowRightIcon } from "@/components/ui/arrow-right"
+import { ArrowUpRightIcon } from "@/components/ui/arrow-up-right"
 
 export function HeroSection() {
   return (
@@ -31,7 +32,7 @@ export function HeroSection() {
             <div className="hero-actions">
               <Link className="button button-primary" href="/explore">
                 Explore compensation
-                <ArrowRight aria-hidden="true" />
+                <ArrowRightIcon size={16} aria-hidden="true" />
               </Link>
               <Link className="button button-ghost" href="/compare">
                 Compare companies
@@ -52,7 +53,7 @@ export function HeroSection() {
       </div>
       <Link href="#product" className="hero-scroll-cue">
         <span>Scroll to inspect the grid</span>
-        <MoveDownRight aria-hidden="true" />
+        <ArrowUpRightIcon size={16} aria-hidden="true" />
       </Link>
       <div className="hero-footnote" aria-hidden="true">
         <span>CG / 001</span>

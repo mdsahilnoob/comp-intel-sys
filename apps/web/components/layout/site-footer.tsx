@@ -15,7 +15,7 @@ const learningLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer border-t border-border/80 bg-card/45">
+    <footer className="site-footer relative z-20 border-t border-border/80 bg-card/45">
       <div className="site-footer-inner mx-auto w-full max-w-7xl px-4 py-12 text-xs text-muted-foreground sm:px-6 lg:px-8">
         <div className="site-footer-grid">
           <div className="footer-brand-block">

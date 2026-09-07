@@ -245,10 +245,9 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
-pnpm --filter @comp-intel/web test:e2e
 ```
 
-Unit and API tests cover normalization, derived compensation, fingerprint uniqueness, percentile statistics, demo data, validation, repositories, and route behavior. Browser tests require Playwright browsers to be installed in the environment.
+Unit and API tests cover normalization, derived compensation, fingerprint uniqueness, percentile statistics, demo data, validation, repositories, and route behavior.
 
 ## Deployment and limitations
 

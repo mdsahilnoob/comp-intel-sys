@@ -5,6 +5,8 @@ import { describe, expect, it } from "vitest";
 import type { AiCompanyDirectoryEntry } from "@/server/ai-companies";
 import { createCompanyHref } from "@/lib/urls";
 import { CompanyCard } from "@/components/company/company-card";
+import { CompanyDirectoryFooter } from "@/components/company/company-directory-footer";
+import { SiteFooter } from "@/components/layout/site-footer";
 
 const openAi: AiCompanyDirectoryEntry = {
   id: 10_000,
@@ -54,5 +56,24 @@ describe("AI company UI contracts", () => {
     expect(markup).toContain("AI Labs");
     expect(markup).toContain("3 products");
     expect(markup).toContain('href="/companies/openai"');
+  });
+
+  it("renders the directory footer with live results and next steps", () => {
+    const markup = renderToStaticMarkup(
+      createElement(CompanyDirectoryFooter, { total: 12 }),
+    );
+
+    expect(markup).toContain("Compare the market by employer");
+    expect(markup).toContain("12");
+    expect(markup).toContain("matching companies");
+    expect(markup).toContain('href="/explore"');
+    expect(markup).toContain('href="/compare"');
+  });
+
+  it("keeps the shared footer above the fixed company sidebar", () => {
+    const markup = renderToStaticMarkup(createElement(SiteFooter));
+
+    expect(markup).toContain("site-footer");
+    expect(markup).toContain("relative z-20");
   });
 });

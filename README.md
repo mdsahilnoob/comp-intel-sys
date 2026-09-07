@@ -19,8 +19,8 @@ Compensation data is difficult to compare because the same title means different
 | Route | Purpose |
 | --- | --- |
 | `/explore` | URL-backed compensation explorer with filters, metrics, sorting, pagination, and responsive cards |
-| `/companies` | Searchable company directory |
-| `/companies/[slug]` | Company profile, role/location slice, level mapping, and median chart |
+| `/companies` | AI company discovery with search, categories, filters, sorting, pagination, and responsive cards |
+| `/companies/[slug]` | AI company profile with products, capabilities, metadata, and related companies; legacy compensation profiles remain supported |
 | `/compare` | Compare up to three company levels on the same role and city |
 | `/submit` | Anonymous INR submission form with live derived total |
 | `/methodology` | Normalization, level mapping, and metric definitions |
@@ -44,6 +44,14 @@ flowchart LR
 ```
 
 The web app uses Next.js 16, React 19, TypeScript strict mode, Tailwind CSS, shadcn-style primitives, Prisma 7, PostgreSQL, Zod, React Hook Form, Recharts, Lucide, Vitest, and Playwright-ready scripts. When `DATABASE_URL` is absent, read paths use the deterministic demo repository so the product can be explored locally without a database.
+
+### AI Companies module
+
+The `/companies` module is a server-rendered discovery surface for a deterministic 48-company AI ecosystem catalog. It uses the same compact CompGrid design language—neutral cards, restrained accent color, badges, and URL-backed discovery controls—while adding AI-specific metadata and product depth.
+
+The listing query supports `search`, `category`, `country`, `status`, `sort`, `page`, and `limit`. Server Components call `getAiCompanyDirectory` directly; the public route handler exposes the same service for API consumers. The no-database fallback and PostgreSQL repository implement the same filtering, sorting, pagination, and related-company ranking behavior.
+
+All AI company descriptions, products, popularity scores, and relationships are deterministic evaluation/demo content. They are not live company intelligence or verified market claims.
 
 ## API
 
@@ -128,22 +136,27 @@ Example response:
 
 ### `GET /api/companies`
 
-Returns the searchable company directory.
+Returns the paginated AI company directory.
 
-- Query: optional `search` string. It matches company name, slug, and industry.
-- Response: `{ "data": [{ "id", "name", "slug", "industry", "recordCount", "medianSoftwareEngineerTc" }] }`.
-- `medianSoftwareEngineerTc` is an integer INR value or `null` when no matching records exist.
+- Query: `search`, `category`, `country`, `status`, `sort`, `page`, and `limit`.
+- Sort values: `popular`, `newest`, `name`, and `products`.
+- Response: `{ "data": [...], "pagination": { "page", "limit", "total", "totalPages" } }`.
+- A search-only request with no AI matches falls back to the legacy compensation directory for compatibility with existing compensation consumers.
+
+### `GET /api/categories`
+
+Returns AI discovery categories and their current demo counts, for example `{ "data": [{ "name": "AI Labs", "slug": "ai-lab", "count": 12 }] }`.
 
 ### `GET /api/companies/[slug]`
 
-Returns one company profile with summary statistics and its company-specific level mapping.
+Returns an AI company profile with products and related companies for AI slugs. Existing compensation profiles continue to return their summary statistics and company-specific level mapping for legacy slugs such as `google`.
 
 - Path: `slug`, for example `google`.
 - Query: optional `role` role slug (default `software-engineer`) and optional `location` location slug.
 - Response: `{ "data": { "company", "recordCount", "summary", "levels", "selectedRole", "selectedLocation" } }`.
 - Each `summary` metric (`totalCompensation`, `baseSalary`, `stockAnnual`, `bonusAnnual`) contains `count`, `average`, `median`, `p25`, `p50`, `p75`, `p90`, `min`, and `max`.
 - Each `levels` item contains `levelCode`, `displayName`, `canonicalLevel`, `canonicalLevelName`, `canonicalRank`, `baseSalary`, `stockAnnual`, `bonusAnnual`, `medianTc`, and `recordCount`.
-- Unknown companies return an error with the standard error envelope.
+- Unknown companies return a `NOT_FOUND` error with the standard error envelope.
 
 ### `GET /api/companies/[slug]/levels`
 
@@ -197,7 +210,7 @@ Successful requests return `201` with `{ "data": { ...normalizedSubmission } }`.
 
 ## Data model and semantics
 
-The Prisma schema contains `Company`, `CompanyAlias`, `Role`, `RoleAlias`, `CareerLevel`, `CompanyLevel`, `Location`, and `CompensationSubmission`.
+The Prisma schema contains `Company`, `CompanyAlias`, `Role`, `RoleAlias`, `CareerLevel`, `CompanyLevel`, `Location`, and `CompensationSubmission` for compensation intelligence. AI discovery adds `Category`, `CompanyCategory`, `Product`, and optional AI metadata on `Company` (`description`, location, founded year, lifecycle status, popularity score, capabilities, and `isAiCompany`).
 
 - Money is stored as integer INR; no floating-point money is persisted.
 - Names use Unicode normalization, lowercasing, punctuation cleanup, and whitespace folding.
@@ -223,7 +236,7 @@ pnpm --filter @comp-intel/web db:migrate
 pnpm --filter @comp-intel/web db:seed
 ```
 
-The seed creates the catalog and 5,760 deterministic synthetic records (20 companies × 4 roles × 6 cities × 12 observations). The seed requires PostgreSQL and never presents synthetic values as verified community evidence.
+The seed creates the 48-company AI discovery catalog plus the compensation catalog and 5,760 deterministic synthetic salary records (20 companies × 4 roles × 6 cities × 12 observations). The seed requires PostgreSQL and never presents synthetic values or AI-company metadata as verified community evidence.
 
 ## Verification
 

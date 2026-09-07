@@ -1,25 +1,33 @@
-import "dotenv/config"
+import "dotenv/config";
 
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Prisma, PrismaClient } from "@prisma/client";
 
 import {
   CAREER_LEVEL_DEFINITIONS,
   COMPANY_DEFINITIONS,
   LOCATION_DEFINITIONS,
   ROLE_DEFINITIONS,
-} from "@/server/catalog"
-import { createSubmissionFingerprint } from "@/server/normalization/fingerprint"
-import { normalizeCompanyName, normalizeRoleName } from "@/server/normalization/string-normalizer"
-import { generateDemoCompensationRecords } from "@/server/demo-data"
+} from "@/server/catalog";
+import {
+  AI_COMPANY_CATEGORIES,
+  AI_COMPANY_DEFINITIONS,
+} from "@/server/ai-companies";
+import { createSubmissionFingerprint } from "@/server/normalization/fingerprint";
+import {
+  normalizeCompanyName,
+  normalizeRoleName,
+} from "@/server/normalization/string-normalizer";
+import { generateDemoCompensationRecords } from "@/server/demo-data";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
-  const careerLevels = new Map<string, { id: number }>()
-  const roles = new Map<string, { id: number }>()
-  const companies = new Map<string, { id: number }>()
-  const locations = new Map<string, { id: number }>()
-  const companyLevels = new Map<string, { id: number }>()
+  const careerLevels = new Map<string, { id: number }>();
+  const roles = new Map<string, { id: number }>();
+  const companies = new Map<string, { id: number }>();
+  const locations = new Map<string, { id: number }>();
+  const companyLevels = new Map<string, { id: number }>();
+  const categories = new Map<string, { id: number }>();
 
   for (const definition of CAREER_LEVEL_DEFINITIONS) {
     const careerLevel = await client.careerLevel.upsert({
@@ -27,8 +35,8 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
       update: { name: definition.name, rank: definition.rank },
       create: definition,
       select: { id: true },
-    })
-    careerLevels.set(definition.code, careerLevel)
+    });
+    careerLevels.set(definition.code, careerLevel);
   }
 
   for (const definition of ROLE_DEFINITIONS) {
@@ -41,16 +49,16 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
         category: definition.category,
       },
       select: { id: true },
-    })
-    roles.set(definition.slug, role)
+    });
+    roles.set(definition.slug, role);
 
     for (const alias of definition.aliases) {
-      const normalizedAlias = normalizeRoleName(alias)
+      const normalizedAlias = normalizeRoleName(alias);
       await client.roleAlias.upsert({
         where: { normalizedAlias },
         update: { alias, roleId: role.id },
         create: { alias, normalizedAlias, roleId: role.id },
-      })
+      });
     }
   }
 
@@ -69,23 +77,23 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
         website: definition.website,
       },
       select: { id: true },
-    })
-    companies.set(definition.slug, company)
+    });
+    companies.set(definition.slug, company);
 
-    const aliases = [definition.name, ...definition.aliases]
+    const aliases = [definition.name, ...definition.aliases];
     for (const alias of aliases) {
-      const normalizedAlias = normalizeCompanyName(alias)
+      const normalizedAlias = normalizeCompanyName(alias);
       await client.companyAlias.upsert({
         where: { normalizedAlias },
         update: { alias, companyId: company.id },
         create: { alias, normalizedAlias, companyId: company.id },
-      })
+      });
     }
 
     for (const level of definition.levels) {
-      const careerLevel = careerLevels.get(level.careerLevelCode)
+      const careerLevel = careerLevels.get(level.careerLevelCode);
       if (!careerLevel) {
-        throw new Error(`Missing career level ${level.careerLevelCode}`)
+        throw new Error(`Missing career level ${level.careerLevelCode}`);
       }
 
       const companyLevel = await client.companyLevel.upsert({
@@ -109,8 +117,8 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
           maxYearsExperience: level.maxYearsExperience,
         },
         select: { id: true },
-      })
-      companyLevels.set(`${definition.slug}:${level.code}`, companyLevel)
+      });
+      companyLevels.set(`${definition.slug}:${level.code}`, companyLevel);
     }
   }
 
@@ -124,30 +132,123 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
       },
       create: definition,
       select: { id: true },
-    })
-    locations.set(definition.slug, location)
+    });
+    locations.set(definition.slug, location);
   }
 
-  return { careerLevels, roles, companies, locations, companyLevels }
+  for (const definition of AI_COMPANY_CATEGORIES) {
+    const category = await client.category.upsert({
+      where: { slug: definition.slug },
+      update: { name: definition.name },
+      create: definition,
+      select: { id: true },
+    });
+    categories.set(definition.slug, category);
+  }
+
+  for (const definition of AI_COMPANY_DEFINITIONS) {
+    const company = await client.company.upsert({
+      where: { slug: definition.slug },
+      update: {
+        name: definition.name,
+        website: definition.website,
+        description: definition.description,
+        city: definition.city,
+        country: definition.country,
+        foundedYear: definition.foundedYear,
+        status: definition.status,
+        popularityScore: definition.popularityScore,
+        featured: definition.featured,
+        capabilities: definition.capabilities,
+        isAiCompany: true,
+      },
+      create: {
+        name: definition.name,
+        slug: definition.slug,
+        website: definition.website,
+        description: definition.description,
+        city: definition.city,
+        country: definition.country,
+        foundedYear: definition.foundedYear,
+        status: definition.status,
+        popularityScore: definition.popularityScore,
+        featured: definition.featured,
+        capabilities: definition.capabilities,
+        isAiCompany: true,
+      },
+      select: { id: true },
+    });
+
+    for (const categorySlug of definition.categories) {
+      const category = categories.get(categorySlug);
+      if (!category) {
+        throw new Error(`Missing AI company category ${categorySlug}`);
+      }
+
+      await client.companyCategory.upsert({
+        where: {
+          companyId_categoryId: {
+            companyId: company.id,
+            categoryId: category.id,
+          },
+        },
+        update: {},
+        create: { companyId: company.id, categoryId: category.id },
+      });
+    }
+
+    for (const product of definition.products) {
+      await client.product.upsert({
+        where: {
+          companyId_slug: { companyId: company.id, slug: product.slug },
+        },
+        update: {
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          url: product.url,
+        },
+        create: {
+          companyId: company.id,
+          name: product.name,
+          slug: product.slug,
+          description: product.description,
+          category: product.category,
+          url: product.url,
+        },
+      });
+    }
+  }
+
+  return {
+    careerLevels,
+    roles,
+    companies,
+    locations,
+    companyLevels,
+    categories,
+  };
 }
 
 async function main() {
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is required to seed PostgreSQL")
+    throw new Error("DATABASE_URL is required to seed PostgreSQL");
   }
 
-  const catalogIds = await prisma.$transaction((transaction) => seedCatalog(transaction))
-  const records = generateDemoCompensationRecords()
+  const catalogIds = await prisma.$transaction((transaction) =>
+    seedCatalog(transaction),
+  );
+  const records = generateDemoCompensationRecords();
   const rows = records.map((record) => {
-    const company = catalogIds.companies.get(record.company.slug)
-    const role = catalogIds.roles.get(record.role.slug)
+    const company = catalogIds.companies.get(record.company.slug);
+    const role = catalogIds.roles.get(record.role.slug);
     const companyLevel = catalogIds.companyLevels.get(
       `${record.company.slug}:${record.companyLevel.code}`,
-    )
-    const location = catalogIds.locations.get(record.location.slug)
+    );
+    const location = catalogIds.locations.get(record.location.slug);
 
     if (!company || !role || !companyLevel || !location) {
-      throw new Error(`Unable to resolve seeded record ${record.id}`)
+      throw new Error(`Unable to resolve seeded record ${record.id}`);
     }
 
     return {
@@ -177,25 +278,30 @@ async function main() {
       }),
       createdAt: new Date(record.createdAt),
       updatedAt: new Date(record.createdAt),
-    }
-  })
+    };
+  });
 
-  const batchSize = 500
+  const batchSize = 500;
   for (let index = 0; index < rows.length; index += batchSize) {
     await prisma.compensationSubmission.createMany({
       data: rows.slice(index, index + batchSize),
       skipDuplicates: true,
-    })
+    });
   }
 
-  console.log(`Seeded ${records.length} deterministic synthetic compensation records.`)
+  console.log(
+    `Seeded ${records.length} deterministic synthetic compensation records.`,
+  );
 }
 
 main()
   .catch((error: unknown) => {
-    console.error("Seed failed:", error instanceof Error ? error.message : error)
-    process.exitCode = 1
+    console.error(
+      "Seed failed:",
+      error instanceof Error ? error.message : error,
+    );
+    process.exitCode = 1;
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });

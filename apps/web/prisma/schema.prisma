@@ -13,13 +13,70 @@ model Company {
   logoUrl     String?
   industry    String?
   website     String?
+  description String?
+  city        String?
+  country     String?
+  foundedYear Int?
+  status      CompanyStatus?
+  popularityScore Int      @default(0)
+  featured    Boolean      @default(false)
+  capabilities String[]    @default([])
+  isAiCompany Boolean      @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   aliases     CompanyAlias[]
   levels      CompanyLevel[]
   submissions CompensationSubmission[]
+  categories  CompanyCategory[]
+  products    Product[]
 
   @@index([name])
+  @@index([isAiCompany])
+  @@index([country])
+  @@index([status])
+  @@index([popularityScore])
+}
+
+enum CompanyStatus {
+  STARTUP
+  GROWTH
+  PUBLIC
+  ACQUIRED
+}
+
+model Category {
+  id        Int              @id @default(autoincrement())
+  name      String
+  slug      String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  companies CompanyCategory[]
+
+  @@index([name])
+}
+
+model CompanyCategory {
+  companyId  Int
+  categoryId Int
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([companyId, categoryId])
+  @@index([categoryId])
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  companyId   Int
+  name        String
+  slug        String
+  description String
+  category    String?
+  url         String?
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, slug])
+  @@index([companyId])
 }
 
 model CompanyAlias {

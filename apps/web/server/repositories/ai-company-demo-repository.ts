@@ -1,6 +1,7 @@
 import {
   AI_COMPANY_CATEGORIES,
   AI_COMPANY_DEFINITIONS,
+  getAiCompanyLogoUrl,
   type AiCompanyCategory,
   type AiCompanyDefinition,
   type AiCompanyDetailData,
@@ -24,7 +25,7 @@ function toDirectoryEntry(
     name: definition.name,
     slug: definition.slug,
     description: definition.description,
-    logoUrl: null,
+    logoUrl: getAiCompanyLogoUrl(definition.website),
     city: definition.city,
     country: definition.country,
     foundedYear: definition.foundedYear,

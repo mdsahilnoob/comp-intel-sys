@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 
 import {
   AI_COMPANY_CATEGORIES,
+  getAiCompanyLogoUrl,
   type AiCompanyCategory,
   type AiCompanyCountryCode,
   type AiCompanyDetailData,
@@ -39,7 +40,7 @@ function toDirectoryEntry(company: DirectoryCompany): AiCompanyDirectoryEntry {
     description:
       company.description ??
       "An AI company building products and infrastructure.",
-    logoUrl: company.logoUrl,
+    logoUrl: company.logoUrl ?? getAiCompanyLogoUrl(company.website),
     city: company.city ?? "—",
     country: (company.country ?? "US") as AiCompanyCountryCode,
     foundedYear: company.foundedYear ?? 0,

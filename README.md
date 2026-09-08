@@ -29,6 +29,7 @@ Compensation data is difficult to compare because the same title means different
 | `/sitemap.xml` | Static pages and public company profile URLs |
 | `/opengraph-image` | Generated 1200 × 630 social preview image |
 fix error
+2nd bug
 
 ## Architecture
 

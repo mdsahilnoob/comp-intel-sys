@@ -94,6 +94,17 @@ export interface AiCompanyDetailData extends AiCompanyDirectoryEntry {
   relatedCompanies: AiCompanyDirectoryEntry[];
 }
 
+export function getAiCompanyLogoUrl(website?: string | null) {
+  if (!website) return null;
+
+  try {
+    const hostname = new URL(website).hostname.replace(/^www\./, "");
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=128`;
+  } catch {
+    return null;
+  }
+}
+
 function toSlug(value: string) {
   return value
     .toLocaleLowerCase("en-US")

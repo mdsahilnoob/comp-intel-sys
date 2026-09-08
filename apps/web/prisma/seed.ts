@@ -11,6 +11,7 @@ import {
 import {
   AI_COMPANY_CATEGORIES,
   AI_COMPANY_DEFINITIONS,
+  getAiCompanyLogoUrl,
 } from "@/server/ai-companies";
 import { createSubmissionFingerprint } from "@/server/normalization/fingerprint";
 import {
@@ -152,6 +153,7 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
       update: {
         name: definition.name,
         website: definition.website,
+        logoUrl: getAiCompanyLogoUrl(definition.website),
         description: definition.description,
         city: definition.city,
         country: definition.country,
@@ -166,6 +168,7 @@ async function seedCatalog(client: PrismaClient | Prisma.TransactionClient) {
         name: definition.name,
         slug: definition.slug,
         website: definition.website,
+        logoUrl: getAiCompanyLogoUrl(definition.website),
         description: definition.description,
         city: definition.city,
         country: definition.country,

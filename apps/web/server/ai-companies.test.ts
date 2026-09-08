@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   AI_COMPANY_CATEGORIES,
   AI_COMPANY_DEFINITIONS,
+  getAiCompanyLogoUrl,
 } from "@/server/ai-companies";
 
 describe("AI company catalog", () => {
@@ -49,5 +50,12 @@ describe("AI company catalog", () => {
       "robotics",
       "consumer-ai",
     ]);
+  });
+
+  it("builds a real logo URL from each company's official website", () => {
+    expect(getAiCompanyLogoUrl("https://openai.com")).toBe(
+      "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+    );
+    expect(getAiCompanyLogoUrl("not-a-url")).toBeNull();
   });
 });

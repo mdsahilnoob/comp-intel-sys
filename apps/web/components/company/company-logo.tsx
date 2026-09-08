@@ -1,3 +1,8 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 function getInitials(name: string) {
@@ -12,12 +17,16 @@ function getInitials(name: string) {
 
 export function CompanyLogo({
   name,
+  logoUrl,
   className,
 }: {
   name: string;
   logoUrl?: string | null;
   className?: string;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const showLogo = Boolean(logoUrl) && !imageFailed;
+
   return (
     <span
       className={cn(
@@ -26,7 +35,18 @@ export function CompanyLogo({
       )}
       aria-hidden="true"
     >
-      {getInitials(name)}
+      {showLogo ? (
+        <Image
+          src={logoUrl!}
+          alt=""
+          width={48}
+          height={48}
+          className="size-full object-contain p-2"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        getInitials(name)
+      )}
     </span>
   );
 }

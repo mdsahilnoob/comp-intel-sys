@@ -28,6 +28,7 @@ Compensation data is difficult to compare because the same title means different
 | `/robots.txt` | Crawler rules and the sitemap URL |
 | `/sitemap.xml` | Static pages and public company profile URLs |
 | `/opengraph-image` | Generated 1200 × 630 social preview image |
+fix error
 
 ## Architecture
 
